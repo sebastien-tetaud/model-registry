@@ -2,8 +2,8 @@
 import gridfs
 from loguru import logger
 
-from utils import calculate_checksum, create_query, get_username, model_search
-from utils import generate_model_name
+from model_registry.utils import calculate_checksum, create_query, get_username, model_search
+from model_registry.utils import generate_model_name
 
 
 def store(client, metadata: dict, model_path: str, collection: str) -> bool:

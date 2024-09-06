@@ -2,9 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='model_registry',
-    version='0.1',
+    version='0.2',
     packages=find_packages(),
-    install_requires=[],  # List dependencies here
+    install_requires=[
+        'loguru==0.7.2',
+        'pymongo==4.3.3'
+    ],
     author='Sebastien Tetaud',
     author_email='sebastien.tetaud@esa.int',
     description='Librairy to access models and metada on a model registry',
