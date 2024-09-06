@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+model_registry/__init__.py
+model_registry/connector.py
+model_registry/store.py
+model_registry/utils.py
+model_registry.egg-info/PKG-INFO
+model_registry.egg-info/SOURCES.txt
+model_registry.egg-info/dependency_links.txt
+model_registry.egg-info/top_level.txt

@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: model_registry
+Version: 0.1
+Summary: Librairy to access models and metada on a model registry
+Home-page: https://github.com/tetaud-sebastien/model-registry
+Author: Sebastien Tetaud
+Author-email: sebastien.tetaud@esa.int
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# model-registry
