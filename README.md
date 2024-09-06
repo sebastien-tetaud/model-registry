@@ -27,6 +27,7 @@ To install the library locally, follow these steps:
 ### Connect to the Model Registry
 
 ```Python
+from model_registry.connector import MongoDBConnector
 username = "username"
 password = "password"
 host = "ip_address"
@@ -40,6 +41,7 @@ client = connector.connect()
 ### Store a Model in the Model Registry
 
 ```Python
+from model_registry.store import store
 collection = "your_collection"
 model_path = "path/to/model.onnx"
 # Metadata for the model
