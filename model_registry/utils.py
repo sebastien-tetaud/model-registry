@@ -25,10 +25,9 @@ def generate_model_name(config: dict) -> dict:
     """
 
     project_name = config["project_name"]
-    model_application = config["model_application"]
     model_architecture = config["model_architecture"]
     model_version = config["model_version"]
-    model_name = project_name + "_" + model_application + "_" +\
+    model_name = project_name + "_" + "_" +\
         model_architecture + "_" + "V" + str(model_version)
     config['model_name'] = model_name
     return config
@@ -61,9 +60,9 @@ def model_search(client, query):
 
     """
 
-    model_application = query['metadata.model_application']
+    db = query['metadata.db']
     collection = query['metadata.model_format']
-    db = client[model_application]
+    db = client[db]
     fs = gridfs.GridFS(database=db, collection=collection)
     # Query for specific documents
     collection = db[collection+".files"]
