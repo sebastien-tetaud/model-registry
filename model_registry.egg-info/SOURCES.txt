@@ -8,3 +8,4 @@ model_registry.egg-info/SOURCES.txt
 model_registry.egg-info/dependency_links.txt
 model_registry.egg-info/requires.txt
 model_registry.egg-info/top_level.txt
+tests/test.py
