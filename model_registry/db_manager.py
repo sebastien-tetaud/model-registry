@@ -3,7 +3,7 @@ import gridfs
 from bson import ObjectId
 from loguru import logger
 
-from model_registry.utils import (calculate_checksum, create_query,
+from utils import (calculate_checksum, create_query,
                                   generate_model_name, get_username,
                                   model_search)
 
@@ -19,14 +19,14 @@ class DbManager:
         self.client = client
 
 
-    def store_model(self, db: str, collection: str, metadata: dict, model_path: str) -> bool:
+    def store_model(self, database: str, collection: str, metadata: dict, model_path: str) -> bool:
         """
         Store a model file in MongoDB GridFS.
 
         Parameters:
         - client (MongoClient): The MongoClient instance for the MongoDB connection.
         - collection (str): The name of the collection in the MongoDB database.
-        - db (str): The name of the database where the model will be stored.
+        - database (str): The name of the database where the model will be stored.
         - metadata (dict): A dictionary containing metadata about the model to be stored.
         - model_path (str): The file path to the model that needs to be stored.
 
@@ -44,7 +44,7 @@ class DbManager:
         metadata['author'] = get_username()
         metadata['model_path'] = model_path
         metadata['model_format'] = collection
-        metadata['db'] = db
+        metadata['database'] = database
         query = create_query(query_file=metadata)
         logger.info("Searching for existing model...")
         fs_local, result_local = model_search(client=self.client, query=query)
@@ -53,7 +53,7 @@ class DbManager:
             logger.info("Storing new model...")
             model_name = metadata['model_name']
             model_path = metadata['model_path']
-            db = self.client[db]
+            db = self.client[database]
             # Create a new GridFS bucket
             fs = gridfs.GridFS(db, collection=metadata['model_format'])
             with open(model_path, 'rb') as f:
@@ -63,7 +63,7 @@ class DbManager:
                 metadata['checksum'] = checksum
                 model_id = fs.put(data=model_data, filename=model_name, metadata=metadata)
 
-            logger.info(f"Model with ID: {model_id} successfully stored in {metadata['db']}")
+            logger.info(f"Model with ID: {model_id} successfully stored in {metadata['database']}")
             return True
         else:
             return False

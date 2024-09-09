@@ -61,7 +61,7 @@ def model_search(client, query):
 
     """
 
-    db = query['metadata.db']
+    db = query['metadata.database']
     collection = query['metadata.model_format']
     db = client[db]
     fs = gridfs.GridFS(database=db, collection=collection)
