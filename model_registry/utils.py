@@ -126,14 +126,3 @@ class PasswordGenerator:
         # Generate a secure password
         password = ''.join(secrets.choice(characters) for _ in range(self.length))
         return password
-
-# # Example usage
-# if __name__ == "__main__":
-#     # Create a PasswordGenerator instance
-#     generator = PasswordGenerator(length=16, include_special_chars=False)
-
-#     # Generate a password
-#     secure_password = generator.generate()
-
-#     # Print the generated password
-#     print("Generated password:", secure_password)
