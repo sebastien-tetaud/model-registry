@@ -2,10 +2,11 @@
 import hashlib
 import os
 import pwd
+import secrets
+import string
 
 import gridfs
 from loguru import logger
-
 
 
 def generate_model_name(config: dict) -> dict:
@@ -90,3 +91,50 @@ def calculate_checksum(data: bytes)-> float:
 
 def get_username() -> str:
     return pwd.getpwuid(os.getuid())[0]
+
+
+
+class PasswordGenerator:
+    def __init__(self, length: int = 12, include_special_chars: bool = False):
+        """
+        Initialize the PasswordGenerator with the desired length and special character inclusion.
+
+        Parameters:
+        - length (int): The length of the generated password. Default is 12.
+        - include_special_chars (bool): Whether to include special characters in the password. Default is True.
+        """
+        self.length = length
+        self.include_special_chars = include_special_chars
+
+    def generate(self) -> str:
+        """
+        Generate a secure password based on the specified length and character set.
+
+        Returns:
+        - str: A securely generated password.
+        """
+        # Define the character sets
+        letters = string.ascii_letters
+        digits = string.digits
+        special_chars = string.punctuation
+
+        # Combine character sets based on the inclusion of special characters
+        if self.include_special_chars:
+            characters = letters + digits + special_chars
+        else:
+            characters = letters + digits
+
+        # Generate a secure password
+        password = ''.join(secrets.choice(characters) for _ in range(self.length))
+        return password
+
+# # Example usage
+# if __name__ == "__main__":
+#     # Create a PasswordGenerator instance
+#     generator = PasswordGenerator(length=16, include_special_chars=False)
+
+#     # Generate a password
+#     secure_password = generator.generate()
+
+#     # Print the generated password
+#     print("Generated password:", secure_password)
