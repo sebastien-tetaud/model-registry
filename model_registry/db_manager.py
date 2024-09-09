@@ -3,7 +3,7 @@ import gridfs
 from bson import ObjectId
 from loguru import logger
 
-from utils import (calculate_checksum, create_query,
+from model_registry.utils import (calculate_checksum, create_query,
                                   generate_model_name, get_username,
                                   model_search)
 
