@@ -93,7 +93,6 @@ def get_username() -> str:
     return pwd.getpwuid(os.getuid())[0]
 
 
-
 class PasswordGenerator:
     def __init__(self, length: int = 12, include_special_chars: bool = False):
         """
