@@ -1,2 +1,0 @@
-loguru==0.7.2
-pymongo==4.3.3
