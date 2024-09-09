@@ -12,18 +12,18 @@ def main():
 
     # Metadata for the model
     metadata = {
-        "project_name": "ssh_mapping",
+        "project_name": "llm",
+        "model_application": "model_registry",
         "model_architecture": "AutoencoderCNN3D",
         "model_version": "0",
     }
-
     # Connect to MongoDB
     connector = MongoDBConnector(username, password, host, db_name)
     client = connector.connect()
 
     dm = DbManager(client=client)
     # Store the model in MongoDB GridFS
-    dm.store_model(db=db_name,
+    dm.store_model(database=db_name,
                    collection=collection, metadata=metadata,
                    model_path=model_path)
 
