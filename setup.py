@@ -10,7 +10,7 @@ setup(
     ],
     author='Sebastien Tetaud',
     author_email='sebastien.tetaud@esa.int',
-    description='Librairy to access models and metada on a model registry',
+    description='Library to access models and metadata on a model registry',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/tetaud-sebastien/model-registry',
