@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import json
 import gridfs
 from bson import ObjectId
 from loguru import logger
@@ -99,3 +101,75 @@ class DbManager:
                             {database} and collection: {collection}")
         except Exception as e:
             logger.error(e)
+
+    def search_model(self, database: str, collection: str, model_id: str):
+        """
+        Search for a model in the MongoDB GridFS by its model_id.
+
+        Args:
+            database (str): The name of the database to search within.
+            collection (str): The name of the collection to search within.
+            model_id (str): The ID of the model (in string format) to search for.
+
+        Returns:
+            dict: The document corresponding to the model, or None if not found.
+        """
+        db = self.client[database]
+        collection_files = f"{collection}.files"
+        collection = db[collection_files]
+
+        # Convert model_id to ObjectId
+        model_object_id = ObjectId(model_id)
+
+        # Search for the model in the collection
+        result = collection.find_one({"_id": model_object_id})
+
+        return result
+
+    def get_model(self, database: str, collection: str, model_id: str):
+        """
+        Retrieve a model file and its metadata from MongoDB GridFS and save them locally.
+
+        Args:
+            database (str): The name of the database.
+            collection (str): The name of the collection containing the model.
+            model_id (str): The ID of the model (in string format).
+
+        Returns:
+            dict: The document corresponding to the model, or None if not found.
+        """
+        db = self.client[database]
+        fs = gridfs.GridFS(db, collection=collection)
+        collection_files = f"{collection}.files"
+        collection = db[collection_files]
+
+        # Convert model_id to ObjectId
+        model_object_id = ObjectId(model_id)
+
+        # Find the model in the collection
+        result = collection.find_one({"_id": model_object_id})
+
+        if result:
+            # Retrieve the model data and metadata
+            model_id = result['_id']
+            model_data = fs.get(model_id).read()
+            metadata = result['metadata']
+
+            # Prepare the local directory for saving the model and metadata
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            model_dir = os.path.join(current_dir, "model")
+
+            if not os.path.exists(model_dir):
+                os.makedirs(model_dir)
+
+            # Save the model file
+            model_filename = os.path.join(model_dir, f"{metadata['model_name']}.pt")
+            with open(model_filename, 'wb') as model_file:
+                model_file.write(model_data)
+
+            # Save the metadata as a JSON file
+            metadata_filename = os.path.join(model_dir, f"{metadata['model_name']}.json")
+            with open(metadata_filename, "w") as metadata_file:
+                json.dump(metadata, metadata_file)
+
+        return result
